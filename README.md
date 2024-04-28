@@ -22,9 +22,9 @@ Example Custom resource to be used for the delete partition (DP) job:
 apiVersion: dynamoctl.dp.operators.sanjivmadhavan.io/v1alpha1
 kind: DdbctlDpJob
 metadata:
-  name: ddbctldtpjob-sample
+  name: ddbctldpjob-sample
 spec:
-  ddbCtlDtpJob:
+  ddbCtlDpJob:
     awsRegion: us-east-1
     endpointURL: http://aws-dynamhttp://dynamodb.local:8000
     partitionValue: partition-key-value
@@ -35,4 +35,9 @@ The dynamoctl-dp-operator extends the operator pattern of k8s using Custom resou
 
 ## Kubebuilder
 Kubebuilder is a framework for building Kubernetes APIs / Operators, which helps to generate a set of boiler plate codes for the Controller, and related CRDs.
+
+#### Command references
+To scaffold the project, use:
+
+```bash kubebuilder init --domain dynamoctl.dp.operators.<name>.io --repo <your-github-repo>```
 
