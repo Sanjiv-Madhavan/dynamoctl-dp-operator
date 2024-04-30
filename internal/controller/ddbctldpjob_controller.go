@@ -18,7 +18,6 @@ package controller
 
 import (
 	"context"
-	"fmt"
 
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -110,8 +109,6 @@ func (r *DdbctlDpJobReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		log.Error(err, "unable to set controller reference (jobOwner) for the Job")
 		return ctrl.Result{}, err
 	}
-
-	fmt.Println(ddbctldpjob)
 
 	if err := r.Create(ctx, jobTemplate); err != nil {
 		log.Error(err, "unable to create Job for DeleteTablePartitionJob")
