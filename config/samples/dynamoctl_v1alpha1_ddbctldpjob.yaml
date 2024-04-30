@@ -2,8 +2,16 @@ apiVersion: dynamoctl.dp.operators.sanjivmadhavan.io/v1alpha1
 kind: DdbctlDpJob
 metadata:
   labels:
-    app.kubernetes.io/name: dynamoctl-dp-operator
+    labels:
+    app.kubernetes.io/name: deletetablepartitiondatajob
+    app.kubernetes.io/instance: deletetablepartitiondatajob-orders
+    app.kubernetes.io/part-of: ddbctl-dtp-operator
     app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: ddbctl-dtp-operator
   name: ddbctldpjob-sample
 spec:
   # TODO(user): Add fields here
+  tableName: Orders
+  partitionValue: TESTTENANTID
+  endpointURL: http://aws-dynamodb-local.default.svc.cluster.local:8000
+  awsRegion: us-east-1

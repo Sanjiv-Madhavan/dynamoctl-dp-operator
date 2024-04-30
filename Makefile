@@ -1,6 +1,8 @@
 VERSION ?= 0.0.1
 IMAGE_TAG_BASE ?= docker.io/sanjivmadhavan/ddbctl-dp-operator
 BUNDLE_IMG ?= $(IMAGE_TAG_BASE)-bundle:v$(VERSION)
+IMG ?= $(IMAGE_TAG_BASE):$(VERSION)
+TARGET_IMG ?= sanshunoisky/go-dynamoctl-deletepartition:$(VERSION)
 
 IMG ?= $(IMAGE_TAG_BASE):$(VERSION)
 
@@ -99,7 +101,8 @@ docker-build: ## Build docker image with the manager.
 
 .PHONY: docker-push
 docker-push: ## Push docker image with the manager.
-	$(CONTAINER_TOOL) push ${IMG}
+	$(CONTAINER_TOOL) tag $(IMG) $(TARGET_IMG)
+	$(CONTAINER_TOOL) push ${TARGET_IMG}
 
 # PLATFORMS defines the target platforms for the manager image be built to provide support to multiple
 # architectures. (i.e. make docker-buildx IMG=myregistry/mypoperator:0.0.1). To use this option you need to:

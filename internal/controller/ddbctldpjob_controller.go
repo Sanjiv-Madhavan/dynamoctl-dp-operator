@@ -41,6 +41,7 @@ type DdbctlDpJobReconciler struct {
 	Scheme *runtime.Scheme
 }
 
+//+kubebuilder:rbac:groups=batch,resources=jobs,verbs=create;get;list;watch;delete
 //+kubebuilder:rbac:groups=dynamoctl.dp.operators.sanjivmadhavan.io,resources=ddbctldpjobs,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=dynamoctl.dp.operators.sanjivmadhavan.io,resources=ddbctldpjobs/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=dynamoctl.dp.operators.sanjivmadhavan.io,resources=ddbctldpjobs/finalizers,verbs=update
@@ -70,7 +71,7 @@ func (r *DdbctlDpJobReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		Containers: []corev1.Container{
 			{
 				Name:    "ddbctl-delete-partition",
-				Image:   "sanjivmadhavan/go-dynamodb-partition-delete:latest",
+				Image:   "sanshunoisky/go-dynamoctl-deletepartition:0.0.1",
 				Command: []string{"/dynamoctl", "delete-partition"},
 				Args: []string{
 					"-t",
@@ -109,7 +110,7 @@ func (r *DdbctlDpJobReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		return ctrl.Result{}, err
 	}
 
-	if err := r.Create(ctx, &ddbctldpjob); err != nil {
+	if err := r.Create(ctx, jobTemplate); err != nil {
 		log.Error(err, "unable to create Job for DeleteTablePartitionJob")
 		return ctrl.Result{}, err
 	}
